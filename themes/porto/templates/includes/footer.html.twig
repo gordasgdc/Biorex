@@ -1,0 +1,44 @@
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            {% if page.label_footer %}
+            <div class="footer-ribbon">
+                {{ page.label_footer }}
+            </div>
+            {% endif %}
+            {% if page.footer_11 %}
+            <div class="col-md-3">
+                {{ page.footer_11 }}
+
+            </div>
+            {% endif %}
+            {% if page.footer_12 %}
+            <div class="col-md-3">
+                {{ page.footer_12 }}
+
+            </div>
+            {% endif %}
+            {% if page.footer_13 %}
+            <div class="col-md-3">
+                {{ page.footer_13 }}
+
+            </div>
+            {% endif %}
+            {% if page.footer_14 %}
+            <div class="col-md-3">
+                <div class="newsletter">
+                    {{ page.footer_14 }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if page.footer_bottom %}
+    <div class="footer-copyright">
+        <div class="container">
+            {{ page.footer_bottom }}
+
+        </div>
+    </div>
+    {% endif %}
+</footer>

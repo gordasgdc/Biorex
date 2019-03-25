@@ -1,0 +1,11 @@
+name: Legacy Redirect
+description: 'Redirects deprecated q=path requests to their newer equivalents.'
+
+type: module
+# core: 8.x
+
+# Information added by Drupal.org packaging script on 2017-05-11
+version: '8.x-1.21'
+core: '8.x'
+project: 'legacy_redirect'
+datestamp: 1494523991

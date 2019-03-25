@@ -1,0 +1,42 @@
+{%
+set classes = [
+dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
+%}
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {{ title }}
+    {#{{ title_suffix }}#}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" href="#panel-filter-category{{ dom_id }}">
+                    {% if header %}
+                        {{ header }}
+                    {% endif %}
+                </a>
+            </h4>
+        </div>
+        <div id="panel-filter-category{{ dom_id }}" class="accordion-body collapse in">
+            <div class="panel-body">
+                {{ rows }}
+            </div>
+        </div>
+    </div>
+    {{ exposed }}
+    {{ attachment_before }}
+
+    {{ empty }}
+    {{ pager }}
+
+    {{ attachment_after }}
+    {{ more }}
+
+    {% if footer %}
+        <footer>
+            {{ footer }}
+        </footer>
+    {% endif %}
+
+    {{ feed_icons }}
+</div>

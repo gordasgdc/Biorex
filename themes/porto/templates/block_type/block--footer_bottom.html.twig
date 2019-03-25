@@ -1,0 +1,27 @@
+{%
+set classes = [
+'block',
+'block-' ~ configuration.provider|clean_class,
+'block-' ~ plugin_id|clean_class,
+]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {% if content.field_logo %}
+    <a href="index" class="logo">
+        <img alt="Porto Website Template" class="img-responsive" src="{{ content.field_logo | render | striptags | trim }}">
+    </a>
+    {% endif %}
+    {% if content.body %}
+        {{ content['#block_content'].body.value | raw}}
+    {% endif %}
+    {% if content.field_banner %}
+        <img alt="Payments" src="{{ content.field_banner | render | striptags | trim }}" class="footer-payment">
+    {% endif %}
+
+    {% if content.field_copyright %}
+        {{ content.field_copyright }}
+    {% endif %}
+    {{ title_suffix }}
+</div>

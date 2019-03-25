@@ -1,0 +1,37 @@
+{%
+set classes = [
+dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
+%}
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {{ title }}
+    {#{{ title_suffix }}#}
+
+    <div class="tabs home-products-tab">
+        {% if header %}
+            {{ header }}
+        {% endif %}
+        <div class="tab-content">
+            <div id="featured" class="tab-pane active">
+                {{ rows }}
+            </div>
+            <div id="latest" class="tab-pane">
+                {% if footer %}
+                    {{ footer }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ exposed }}
+    {{ attachment_before }}
+
+    {{ empty }}
+    {{ pager }}
+
+    {{ attachment_after }}
+    {{ more }}
+    {{ feed_icons }}
+</div>
+
+

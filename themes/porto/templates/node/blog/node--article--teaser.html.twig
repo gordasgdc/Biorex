@@ -1,0 +1,64 @@
+{% set createdDate = node.getCreatedTime|date('F j, Y, g:i a') %}
+{% set createdDate_d = node.getCreatedTime|date('d') %}
+{% set createdDate_m = node.getCreatedTime|date('M') %}
+{% set medias = node.field_media %}
+{% set images = node.field_image %}
+{% set display = content.field_blog_display['#items'].getValue()|first.value %}
+<article class="post post-large">
+    {% if display == 'gallery' %}
+        {% if images|length %}
+            <div class="post-image">
+                <div class="owl-carousel owl-theme" data-plugin-options='{"items":1}'>
+                    {% for image  in images %}
+                        <div>
+                            <div class="img-thumbnail">
+                                <img class="img-responsive" src="{{ file_url(image.entity.fileuri) }}" alt="">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+    {% elseif display == 'video' %}
+        {% if medias|length %}
+            <div class="post-video">
+                {{ medias|first.value|raw }}
+            </div>
+        {% endif %}
+
+    {% else %}
+
+        {% if node.field_thumbnail.entity.fileuri %}
+            <div class="post-image single">
+                <img class="img-thumbnail" src="{{ file_url(node.field_thumbnail.entity.fileuri) }}" alt="">
+            </div>
+        {% endif %}
+
+    {% endif %}
+    <div class="post-date">
+        <span class="day">{{ createdDate_d }}</span>
+        <span class="month">{{ createdDate_m }}</span>
+    </div>
+
+    <div class="post-content">
+
+        <h2><a href="{{ url }}">{{ label }}</a></h2>
+        {% if content.body | render %}
+            {{ content.body }}
+        {% endif %}
+        <a href="{{ url }}" class="btn btn-link">{{ 'Read more'|trans }}</a>
+
+        <div class="post-meta">
+            <span><i class="fa fa-calendar"></i> {{ createdDate }} </span>
+            <span><i class="fa fa-user"></i> {{ 'By'|trans }} <a href="#">{{ author_name }}</a> </span>
+            {% if content.field_article_tag|render %}
+            <span><i class="fa fa-tag"></i> {{ content.field_article_tag }} </span>
+            {% endif %}
+            {% if content.field_article_blog|render %}
+            <span><i class="fa fa-folder-open"></i> {{ content.field_article_blog }}</span>
+            {% endif %}
+        </div>
+
+    </div>
+</article>

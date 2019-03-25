@@ -1,0 +1,35 @@
+{%
+set classes = [
+'block',
+'block-' ~ configuration.provider|clean_class,
+'block-' ~ plugin_id|clean_class,
+]
+
+%}
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    <div class="banners-area mt-sm">
+        <div class="row">
+            <div class="col-sm-4">
+                {% if content.field_image_one %}
+                <a href="{{ content.field_link_image_one | render | striptags | trim }}" class="banner">
+                    <img src="{{ content.field_image_one | render | striptags | trim }}" alt="Banner">
+                </a>
+                {% endif %}
+                {% if content.field_image_two %}
+                <a href="{{ content.field_link_image_two | render | striptags | trim  }}" class="banner">
+                    <img src="{{ content.field_image_two | render | striptags | trim }}" alt="Banner">
+                </a>
+                {% endif %}
+            </div>
+            {% if content.field_image_three %}
+            <div class="col-sm-8">
+                <a href="{{ content.field_link_image_three | render | striptags | trim }}" class="banner">
+                    <img src="{{ content.field_image_three | render | striptags | trim }}" alt="Banner">
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {{ title_suffix }}
+</div>

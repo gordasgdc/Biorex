@@ -1,0 +1,22 @@
+{%
+set classes = [
+'block',
+'block-' ~ configuration.provider|clean_class,
+'block-' ~ plugin_id|clean_class,
+]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    <div class="newsletter-popup mfp-hide" id="newsletter-popup-form" {% if content.field_background %}style="background-image: url({{ content.field_background | render | striptags | trim }}){% endif %}">
+        <div class="newsletter-popup-content">
+            {% if content.field_logo %}
+            <img src="{{ content.field_logo | render | striptags | trim }}" alt="Logo" class="img-responsive center-block">
+            {% endif %}
+            {% if content.field_block_newsletter %}
+                {{ content.field_block_newsletter }}
+            {% endif %}
+        </div>
+    </div>
+    {{ title_suffix }}
+</div>

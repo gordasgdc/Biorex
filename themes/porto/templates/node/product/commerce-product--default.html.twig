@@ -1,0 +1,353 @@
+{#
+/**
+ * @file
+ *
+ * Default product template.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the wrapper.
+ * - product: The rendered product fields.
+ *   Use 'product' to print them all, or print a subset such as
+ *   'product.title'. Use the following code to exclude the
+ *   printing of a given field:
+ *   @code
+ *   {{ product|without('title') }}
+ *   @endcode
+ * - product_entity: The product entity.
+ * - product_url: The product URL.
+ *
+ * @ingroup themeable
+ */
+#}
+{% set images = product_entity.field_image %}
+{% set thumbnail = product_entity.field_thumbnail %}
+{% set image_hover = product_entity.field_image_hover %}
+{% set ratingCount = 0 %}
+{% set ratingPercent = 0 %}
+{% set ratingNumber = 0 %}
+{% set sizes = product_entity.field_product_size %}
+{% set colors = product_entity.field_product_color %}
+{% set layout_tab =  product_entity.field_layout_tab.value %}
+{% set stock =  product_entity.field_commerce_stock.value %}
+{% set view_mode = product.title['#view_mode'] %}
+{% if view_mode == 'default' %}
+    <div class="product">
+        <figure class="product-image-area">
+            <a href="{{ product_url }}" title="Product Name" class="product-image">
+                {% if thumbnail.entity.fileuri %}
+                <img src="{{ file_url(thumbnail.entity.fileuri) }}" alt="Product Name">
+                {% endif %}
+                {% if image_hover.entity.fileuri %}
+                <img src="{{ file_url(image_hover.entity.fileuri) }}" alt="Product Name" class="product-hover-image">
+                {% endif %}
+            </a>
+            <a href="{{ product_url }}" class="product-quickview">
+                <i class="fa fa-share-square-o"></i>
+                <span>View</span>
+            </a>
+            {% if product.field_product_attributes|render|striptags|trim != '' %}
+            <div class="product-label"><span class="new">{{ product.field_product_attributes|render|striptags|trim }}</span></div>
+            {% endif %}
+        </figure>
+        <div class="product-details-area">
+            <h2 class="product-name"><a href="{{ product_url }}" title="Product Name">{{ product.title }}</a></h2>
+
+            <div class="product-ratings">
+                <div class="ct-rating">
+                    {{ product.field_fivestar }}
+                </div>
+            </div>
+
+            <div class="product-price-box">
+                {% if product.field_regular_price|render|striptags|trim != '' %}
+                <span class="old-price">{{ product.field_regular_price|render|striptags|trim }}</span>
+                {% endif %}
+                {% if product.variation_price|render|striptags|trim != '' %}
+                <span class="product-price">{{ product.variation_price|render|striptags|trim }}</span>
+                {% endif %}
+            </div>
+
+            <div class="product-actions addcart">
+                {{ product.variations }}
+            </div>
+        </div>
+    </div>
+{% elseif view_mode == 'teaser' %}
+
+    <div class="product product-sm">
+        <figure class="product-image-area">
+            <a href="{{ product_url }}" title="Product Name" class="product-image">
+                {% if thumbnail.entity.fileuri %}
+                    <img src="{{ file_url(thumbnail.entity.fileuri) }}" alt="Product Name">
+                {% endif %}
+                {% if image_hover.entity.fileuri %}
+                    <img src="{{ file_url(image_hover.entity.fileuri) }}" alt="Product Name" class="product-hover-image">
+                {% endif %}
+            </a>
+        </figure>
+        <div class="product-details-area">
+            <h2 class="product-name"><a href="{{ product_url }}" title="Product Name">{{ product.title }}</a></h2>
+            <div class="product-ratings">
+                {{ product.field_fivestar }}
+            </div>
+            {% if product.variation_price|render|striptags|trim != '' %}
+            <div class="product-price-box">
+                <span class="product-price">{{ product.variation_price|render|striptags|trim }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% elseif view_mode == 'teaser_style_2' %}
+    <div class="product">
+        <figure class="product-image-area">
+            <a href="{{ product_url }}" title="Product Name" class="product-image">
+                {% if thumbnail.entity.fileuri %}
+                    <img src="{{ file_url(thumbnail.entity.fileuri) }}" alt="Product Name">
+                {% endif %}
+                {% if image_hover.entity.fileuri %}
+                    <img src="{{ file_url(image_hover.entity.fileuri) }}" alt="Product Name" class="product-hover-image">
+                {% endif %}
+            </a>
+
+            <a href="{{ product_url }}" class="product-quickview">
+                <i class="fa fa-share-square-o"></i>
+                <span>View</span>
+            </a>
+
+            <div class="product-actions">
+                <a href="javascript:void(0);" class="addtocart" onclick="addToCartInList({{ product_entity.id }});">
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </div>
+        </figure>
+        <div class="cart-hide">
+            {{ product.variations }}
+        </div>
+        <div class="product-details-area">
+            <h2 class="product-name"><a href="{{ product_url }}" title="Product Name">{{ product.title }}</a></h2>
+            <div class="product-ratings home-page">
+                {{ product.field_fivestar }}
+            </div>
+            {% if product.variation_price|render|striptags|trim != '' %}
+                <div class="product-price-box">
+                    <span class="product-price">{{ product.variation_price|render|striptags|trim }}</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+
+<div class="product-view single-product">
+    <div class="product-essential">
+        <div class="row">
+            <div class="product-img-box col-sm-5">
+                <div class="product-img-box-wrapper">
+                 {#   {% if thumbnail.entity.fileuri %}
+                    <div class="product-img-wrapper">
+                        <img id="product-zoom" src="{{ file_url(thumbnail.entity.fileuri) }}" data-zoom-image="{{ file_url(thumbnail.entity.fileuri) }}" alt="Product main image">
+                    </div>
+                    {% endif %}#}
+                    {% if images|length %}
+                        <div class="product-img-wrapper">
+                            <img id="product-zoom" src="{{ file_url(images.entity.fileuri) }}" data-zoom-image="{{ file_url(images.entity.fileuri) }}" alt="Product main image">
+                        </div>
+                    {% endif %}
+                    <a href="#" class="product-img-zoom" title="Zoom">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                </div>
+                {% if images|length %}
+                    <div class="owl-carousel manual" id="productGalleryThumbs">
+                        {% for image  in images %}
+                            <div class="product-img-wrapper">
+                                <a href="#" data-image="{{ file_url(image.entity.fileuri) }}" data-zoom-image="{{ file_url(image.entity.fileuri) }}" class="product-gallery-item">
+                                    <img src="{{ file_url(image.entity.fileuri) }}" alt="product">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="product-details-box col-sm-7">
+                <h1 class="product-name">
+                    {{ product.title }}
+                </h1>
+                <div class="product-rating-container">
+                    <div class="product-ratings">
+                        {{ product.field_fivestar }}
+                    </div>
+                    <div class="review-link">
+                        <a href="javascript:void(0)" class="review-link-in" rel="nofollow"> <span class="count">{{ product.field_comments['#items']|length }}</span> customer review</a> |
+                        <a href="#id-review" class="write-review-link" rel="nofollow">Add a review</a>
+                    </div>
+                </div>
+                {{ product.body }}
+                <div class="product-detail-info">
+
+                    <div class="product-price-box">
+                        {% if product.field_regular_price|render|striptags|trim != '' %}
+                        <span class="old-price">{{ product.field_regular_price|render|striptags|trim }}</span>
+                        {% endif %}
+                        {% if product.variation_price|render|striptags|trim != '' %}
+                        <span class="product-price">{{ product.variation_price|render|striptags|trim }}</span>
+                        {% endif %}
+                    </div>
+                    {% if stock == '1' %}
+                    <p class="availability">
+                        <span class="font-weight-semibold">Availability:</span>
+                        In Stock
+                    </p>
+                    {% else %}
+                        <p class="availability">
+                            <span class="font-weight-semibold">Availability:</span>
+                            Our of Stock
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="product-actions">
+                    <div class="cart-detail">
+                        {{ product.variations }}
+                    </div>
+                </div>
+                <div class="product-share-box">
+                    <div class="addthis_inline_share_toolbox"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id-review">
+    {% if layout_tab == '2' %}
+        <div class="panel-group produt-panel" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1One">
+                            Description
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1One" class="accordion-body collapse">
+                    <div class="panel-body">
+                        {{ product.field_description }}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1Two">
+                            Additional
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1Two" class="accordion-body collapse">
+                    <div class="panel-body">
+                        {{ product.field_product_additional }}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1Three">
+                            Tags
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1Three" class="accordion-body collapse">
+                    <div class="panel-body">
+                        <div class="product-tags-area">
+                            {{ product.field_product_brand }}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1Four">
+                            Reviews
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1Four" class="accordion-body collapse">
+                    <div class="panel-body">
+                        {{ product.field_comments }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% elseif layout_tab == '3' %}
+        <div class="tabs tabs-vertical tabs-left product-tabs">
+            <ul class="nav nav-tabs col-sm-3 col-lg-2">
+                <li class="active">
+                    <a href="#product-desc" data-toggle="tab">Description</a>
+                </li>
+                <li>
+                    <a href="#product-add" data-toggle="tab">Additional</a>
+                </li>
+                <li>
+                    <a href="#product-tags" data-toggle="tab">Tags</a>
+                </li>
+                <li>
+                    <a href="#product-reviews" data-toggle="tab">Reviews</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="product-desc" class="tab-pane active">
+                    {{ product.field_description }}
+                </div>
+                <div id="product-add" class="tab-pane">
+                    {{ product.field_product_additional }}
+                </div>
+                <div id="product-tags" class="tab-pane">
+                    <div class="product-tags-area">
+                        {{ product.field_product_brand }}
+                    </div>
+                </div>
+                <div id="product-reviews" class="tab-pane">
+                    {{ product.field_comments }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+    <div class="tabs product-tabs">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#product-desc" data-toggle="tab">Description</a>
+            </li>
+            <li>
+                <a href="#product-add" data-toggle="tab">Additional</a>
+            </li>
+            <li>
+                <a href="#product-tags" data-toggle="tab">Tags</a>
+            </li>
+            <li>
+                <a href="#product-reviews" data-toggle="tab">Reviews</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="product-desc" class="tab-pane active">
+                {{ product.field_description }}
+            </div>
+            <div id="product-add" class="tab-pane">
+                {{ product.field_product_additional }}
+            </div>
+            <div id="product-tags" class="tab-pane">
+                <div class="product-tags-area">
+                    {{ product.field_product_brand }}
+                </div>
+            </div>
+            <div id="product-reviews" class="tab-pane">
+                {{ product.field_comments }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-581b726c069c6315"></script>
+{% endif %}
+

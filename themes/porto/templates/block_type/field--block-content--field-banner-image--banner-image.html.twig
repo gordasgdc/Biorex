@@ -1,0 +1,8 @@
+{% for key, item in items %}
+    {% set img = file_url(item.content['#field_collection_item'].field_image.entity.fileuri) %}
+    <div class="col-md-12 col-sm-4 col-xs-12">
+        <a href="{{ item.content['#field_collection_item'].field_link.value }}" class="banner">
+            <img src="{{ img }}" alt="Banner">
+        </a>
+    </div>
+{% endfor %}

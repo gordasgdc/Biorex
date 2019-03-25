@@ -1,0 +1,32 @@
+{%
+set classes = [
+dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
+%}
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {{ title }}
+    {#{{ title_suffix }}#}
+    <div class="side-custom-menu mb-none">
+
+        <h2>
+            <i class="fa fa-bars"></i>
+            {% if header %}
+                {{ header }}
+            {% endif %}
+        </h2>
+        {{ rows }}
+    </div>
+    {% if footer %}
+        {{ footer }}
+    {% endif %}
+    {{ exposed }}
+    {{ attachment_before }}
+
+    {{ empty }}
+    {{ pager }}
+
+    {{ attachment_after }}
+    {{ more }}
+    {{ feed_icons }}
+</div>
